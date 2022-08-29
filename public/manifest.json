@@ -19,14 +19,12 @@
   "content_scripts": [
     {
       "matches": [
-        [
-          "*://*.twitter.com/*",
-          "*://*.tiktok.com/*",
-          "*://*.instagram.com/*",
-          "*://*.reddit.com/*"
-        ]
+        "*://*.twitter.com/*",
+        "*://*.tiktok.com/*",
+        "*://*.instagram.com/*",
+        "*://*.reddit.com/*"
       ],
-      "run_at": "document_idle",
+      "run_at": "document_end",
       "js": ["contentScript.js"]
     }
   ]
