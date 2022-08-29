@@ -5,7 +5,7 @@
     "manifest_version": 3,
     "content_scripts": [
         {
-            "matches": ["*://*.twitter.com/*"],
+            "matches": ["*://*.twitter.com/*", "*://*.tiktok.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
             "js": ["blocker.js"],
             "run_at": "document_end"
         }
