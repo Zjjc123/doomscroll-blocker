@@ -4,8 +4,9 @@ A chrome extension to block doom scrolling and help you touch grass!
 
 ## Features
 
-- Doomscroll Detection and Blocking. 1
-- Motivational Messages After Doomscroll.
+- Doomscroll Detection and Blocking
+- Motivational Messages After Doomscroll
+- Beautiful Colors and Animations
 
 ## Install
 
