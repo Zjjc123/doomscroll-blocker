@@ -12,8 +12,8 @@ let flashID;
 const warning = document.createElement('div');
 warning.id = 'doomscroll';
 warning.style =
-  'height: 100%; position: fixed; width: 100% !important; z-index: 9000; display: flex; justify-content: center; flex-direction: column; color: red; font-weight: bolder; text-align: center; font-size: 10vw; z-index: 9000; transition-property: opacity; transition-duration: 0.3s';
-warning.innerText = 'DOOMSCROLL DETECTED';
+  'height: 100%; position: fixed; width: 100%; z-index: 9000; display: flex; justify-content: center; flex-direction: column; color: #f94144; font-weight: bolder; text-align: center; font-size: 7vw; z-index: 9000; transition-property: opacity; transition-duration: 0.3s';
+warning.innerText = 'DOOMSCROLL!';
 
 addEventListener('scroll', (e) => {
   const scrollDelta = document.documentElement.scrollTop - scrollDistance;
@@ -36,30 +36,29 @@ addEventListener('scroll', (e) => {
         }
       }
 
+      // Enable Flash
       flashID = setInterval(() => {
         displayWarning();
       }, FLASH_INTERVAL);
-  
 
       for (child of children) {
         if (child.id != 'doomscroll') child.style.opacity = 0;
       }
 
-      /*
       // After Fade
       const t = setTimeout(() => {
-        document.body.html = '';
+        document.body.innerHTML = '';
         
         clearInterval(flashID);
 
         document.body.appendChild(warning);
         warning.style.opacity = 1;
+        warning.style.color = "#8ac926";
+        warning.style.fontFamily = "sans-serif";
         warning.innerText = 'Touch some grass!';
 
-        console.log("t")
         clearTimeout(t);
       }, SCREEN_DECAY_TIME * 1000);
-      */
     }
   }
 });
@@ -71,5 +70,4 @@ const displayWarning = () => {
     warning.style.opacity = 0;
   }
   warningOn = !warningOn;
-  console.log('inteval');
 };
