@@ -2,10 +2,71 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>
-      A chrome extension to block doom scrolling and help you touch grass!
-    </title>
-    <link rel="stylesheet" href="popup.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Blocked Sites</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 300px;
+        padding: 10px;
+      }
+      #siteList {
+        list-style-type: none;
+        padding: 0;
+      }
+      #siteList li {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      #siteList li button {
+        background-color: #f94144;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        padding: 3px 5px;
+      }
+      #siteInput {
+        width: calc(100% - 24px);
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 5px 10px;
+        margin: 5px 0;
+        cursor: pointer;
+        border: none;
+        border-radius: 3px;
+      }
+      #addSiteBtn {
+        background-color: #8ac926;
+        color: white;
+      }
+      #saveSites,
+      #cancelSites {
+        width: 45%;
+      }
+      #saveSites {
+        background-color: #2a9d8f;
+        color: white;
+      }
+      #cancelSites {
+        background-color: #f94144;
+        color: white;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <h3>Edit Blocked Sites</h3>
+    <input type="text" id="siteInput" placeholder="Add new site" />
+    <button id="addSiteBtn">Add Site</button>
+    <ul id="siteList"></ul>
+    <div>
+      <button id="saveSites">Save</button>
+      <button id="cancelSites">Cancel</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
 </html>

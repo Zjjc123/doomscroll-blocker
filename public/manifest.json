@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Doomscroll Blocker",
-  "version": "0.1.1",
+  "version": "0.2.0",
+  "permissions": ["storage"],
   "description": "A chrome extension to block doom scrolling and help you touch grass!",
   "icons": {
     "16": "icons/icon_16.png",
@@ -18,12 +19,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.twitter.com/*",
-        "*://*.tiktok.com/*",
-        "*://*.instagram.com/*",
-        "*://*.reddit.com/*"
-      ],
+      "matches": ["<all_urls>"],
       "run_at": "document_end",
       "js": ["contentScript.js"]
     }
