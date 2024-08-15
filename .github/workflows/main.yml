@@ -6,20 +6,20 @@ on:
 
 jobs:
   build:
-    name: Publish webextension
+    name: Publish Web Extension
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 12
+        node-version: 20
     - name: Build
       run: |
         npm ci
         npm run build
     - name: Upload & release
-      uses: mnao305/chrome-extension-upload@3.0.0
+      uses: mnao305/chrome-extension-upload@5.0.0
       with:
         file-path: dist/build.zip
         extension-id: gneldbncofioemhoaifgeneiadeodgmh
