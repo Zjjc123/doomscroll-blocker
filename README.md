@@ -9,22 +9,35 @@
 - Beautiful Colors and Animations
 - Motivational Messages After Doomscroll
 
+## Screenshots
+
+<p align="center">
+  <img src="./store/screenshot.png" alt="Doomscroll Blocker Screenshot" width="600">
+  <img src="./store/ui.png" alt="Doomscroll Blocker UI" width="600">
+</p>
+
 ## Changelog
 
 ### 0.3.1
+
 - UI Improvements.
 
 ### 0.3.0
+
 - Major bug fixes involving blocked sites not working on install.
 - User Experience Improvements.
+- Upgraded vulnerable dependencies.
 
 ### 0.2.1
+
 - Minor bug fixes.
 
 ### 0.2.0
+
 - Major UI/UX Improvements.
 
 ### 0.1.0
+
 - Initial release!
 
 ## Install
@@ -35,7 +48,8 @@
 
 Suggestions and pull requests are welcomed!.
 
+https://github.com/Zjjc123/doomscroll-blocker
+
 ---
 
 This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
-
