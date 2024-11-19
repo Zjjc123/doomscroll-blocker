@@ -18,6 +18,11 @@
 
 ## Changelog
 
+### 0.3.2
+
+- Name update
+- Description update
+
 ### 0.3.1
 
 - UI Improvements.
