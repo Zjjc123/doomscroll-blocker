@@ -1,53 +1,28 @@
-const defaultSites = [
-  'facebook.com',
-  'twitter.com',
-  'instagram.com',
-  'reddit.com',
-  'x.com',
-  'youtube.com',
-];
-
-let sites = [];
-
 function renderSiteList() {
   const siteList = document.getElementById('siteList');
   siteList.innerHTML = '';
-  sites.forEach((site) => {
-    const li = document.createElement('li');
-    li.textContent = site;
-    const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'Remove';
-    removeBtn.dataset.site = site;
-    li.appendChild(removeBtn);
-    siteList.appendChild(li);
+
+  chrome.storage.local.get(['blockedSites'], function (result) {
+    const sites = result.blockedSites || [];
+    console.log(sites);
+    sites.forEach((site) => {
+      const li = document.createElement('li');
+      li.textContent = site;
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove';
+      removeBtn.dataset.site = site;
+      li.appendChild(removeBtn);
+      siteList.appendChild(li);
+    });
   });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   const siteInput = document.getElementById('siteInput');
   const addSiteBtn = document.getElementById('addSiteBtn');
-  const saveSitesBtn = document.getElementById('saveSites');
-  const cancelSitesBtn = document.getElementById('cancelSites');
+  const closeButton = document.getElementById('closeButton');
 
-  chrome.storage.local.get(['blockedSites'], function (result) {
-    if (!result.hasOwnProperty('blockedSites')) {
-      chrome.storage.local.set({ blockedSites: defaultSites }, function () {
-        if (chrome.runtime.lastError) {
-          console.error(
-            'Error initializing blockedSites:',
-            chrome.runtime.lastError
-          );
-        }
-      });
-    }
-
-    try {
-      sites = result.blockedSites;
-      renderSiteList();
-    } catch (error) {
-      console.error('Error loading sites:', error);
-    }
-  });
+  renderSiteList();
 
   addSiteBtn.addEventListener('click', function () {
     const site = siteInput.value.trim().toLowerCase();
@@ -58,31 +33,41 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (!sites.includes(site)) {
+    chrome.storage.local.get(['blockedSites'], function (result) {
+      const sites = result.blockedSites || [];
+      if (sites.includes(site)) {
+        alert('This site is already blocked');
+        return;
+      }
       sites.push(site);
-      siteInput.value = '';
-      renderSiteList();
-    }
+      chrome.storage.local.set({ blockedSites: sites }, function () {
+        if (chrome.runtime.lastError) {
+          console.error('Error saving site:', chrome.runtime.lastError);
+          return;
+        }
+        siteInput.value = '';
+        renderSiteList();
+      });
+    });
   });
 
   siteList.addEventListener('click', function (e) {
     if (e.target.tagName === 'BUTTON') {
       const site = e.target.dataset.site;
-      sites = sites.filter((s) => s !== site);
-      renderSiteList();
+      chrome.storage.local.get(['blockedSites'], function (result) {
+        const sites = result.blockedSites.filter((s) => s !== site);
+        chrome.storage.local.set({ blockedSites: sites }, function () {
+          if (chrome.runtime.lastError) {
+            console.error('Error removing site:', chrome.runtime.lastError);
+            return;
+          }
+          renderSiteList();
+        });
+      });
     }
   });
 
-  saveSitesBtn.addEventListener('click', function () {
-    chrome.storage.local.set({ blockedSites: sites }, function () {
-      if (chrome.runtime.lastError) {
-        console.error('Error saving sites:', chrome.runtime.lastError);
-        return;
-      }
-    });
-  });
-
-  cancelSitesBtn.addEventListener('click', function () {
+  closeButton.addEventListener('click', function () {
     window.close();
   });
 });
