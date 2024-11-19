@@ -6,66 +6,96 @@
     <title>Edit Blocked Sites</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        width: 300px;
-        padding: 10px;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        width: 320px;
+        padding: 16px;
+        margin: 0;
+        background-color: #f8f9fa;
       }
+
+      h3 {
+        margin: 0 0 16px 0;
+        color: #1a1a1a;
+        font-size: 18px;
+      }
+
+      #siteInput {
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+
+      #siteInput:focus {
+        outline: none;
+        border-color: #2a9d8f;
+        box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
+      }
+
       #siteList {
         list-style-type: none;
         padding: 0;
+        margin: 16px 0;
+        max-height: 200px;
+        overflow-y: auto;
       }
+
       #siteList li {
         display: flex;
         justify-content: space-between;
-        padding: 5px 0;
-        border-bottom: 1px solid #ddd;
+        align-items: center;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
-      #siteList li button {
-        background-color: #f94144;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        padding: 3px 5px;
-      }
-      #siteInput {
-        width: calc(100% - 24px);
-        padding: 5px;
-        margin-bottom: 10px;
-      }
+
       button {
-        padding: 5px 10px;
-        margin: 5px 0;
-        cursor: pointer;
+        padding: 8px 16px;
         border: none;
-        border-radius: 3px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
       }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
       #addSiteBtn {
-        background-color: #8ac926;
-        color: white;
-      }
-      #saveSites,
-      #cancelSites {
-        width: 45%;
-      }
-      #saveSites {
         background-color: #2a9d8f;
         color: white;
+        width: 100%;
       }
-      #cancelSites {
-        background-color: #f94144;
+
+      #siteList li button {
+        background-color: #ef476f;
         color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+
+      #closeButton {
+        background-color: #6c757d;
+        color: white;
+        width: 100%;
+        margin-top: 8px;
       }
     </style>
   </head>
   <body>
-    <h3>Edit Blocked Sites</h3>
-    <input type="text" id="siteInput" placeholder="Add new site" />
+    <h3>Blocked Sites</h3>
+    <input type="text" id="siteInput" placeholder="Enter website URL..." />
     <button id="addSiteBtn">Add Site</button>
     <ul id="siteList"></ul>
-    <div>
-      <button id="closeButton">Close</button>
-    </div>
+    <button id="closeButton">Close</button>
     <script src="popup.js"></script>
   </body>
 </html>
