@@ -1,12 +1,10 @@
 chrome.storage.local.get(['blockedSites'], function (result) {
-  if (result.blockedSites) {
+  let blockedSites = [];
+  if (result?.blockedSites && Array.isArray(result.blockedSites)) {
     blockedSites = result.blockedSites;
   }
 
-  // Get the current site's hostname
   const currentHostname = window.location.hostname;
-
-  // Check if the current site is in the blocked list
   const isBlocked = blockedSites.some((site) => currentHostname.includes(site));
 
   if (isBlocked) {
@@ -15,77 +13,93 @@ chrome.storage.local.get(['blockedSites'], function (result) {
 });
 
 function initialSiteBlocker() {
-  const SCROLL_LIMIT = 4000;
-  const FLASH_INTERVAL = 400;
-  const SCREEN_DECAY_TIME = 7;
+  const CONFIG = {
+    SCROLL_LIMIT: 4000,
+    FLASH_INTERVAL: 400,
+    SCREEN_DECAY_TIME: 7,
+  };
 
   let scrollDistance = 0;
+  let isWarningVisible = false;
+  let isWarningEnabled = false;
+  let flashIntervalId;
 
-  let warningOn = false;
-  let warningEnabled = false;
+  const warningElement = createWarningElement();
 
-  let flashID;
+  function createWarningElement() {
+    const element = document.createElement('div');
+    element.id = 'doomscroll';
+    element.style = `
+      height: 100%;
+      position: fixed;
+      width: 100%;
+      z-index: 9000;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      color: #f94144;
+      font-weight: bolder;
+      text-align: center;
+      font-size: 7vw;
+      transition-property: opacity;
+      transition-duration: 0.3s
+    `;
+    element.innerText = 'DOOMSCROLL!';
+    return element;
+  }
 
-  const warning = document.createElement('div');
-  warning.id = 'doomscroll';
-  warning.style =
-    'height: 100%; position: fixed; width: 100%; z-index: 9000; display: flex; justify-content: center; flex-direction: column; color: #f94144; font-weight: bolder; text-align: center; font-size: 7vw; z-index: 9000; transition-property: opacity; transition-duration: 0.3s';
-  warning.innerText = 'DOOMSCROLL!';
-
-  addEventListener('scroll', (e) => {
+  const handleScroll = () => {
     const scrollDelta = document.documentElement.scrollTop - scrollDistance;
     scrollDistance = document.documentElement.scrollTop;
 
     if (scrollDelta > 0) {
-      if (!warningEnabled && scrollDistance > SCROLL_LIMIT) {
-        warningEnabled = true;
+      if (!isWarningEnabled && scrollDistance > CONFIG.SCROLL_LIMIT) {
+        isWarningEnabled = true;
 
-        // Create Warning
-        document.body.insertAdjacentElement('afterbegin', warning);
+        document.body.insertAdjacentElement('afterbegin', warningElement);
 
-        // Page Animation
         const children = document.body.children;
         for (child of children) {
           if (child.id != 'doomscroll') {
             child.style.opacity = 1;
             child.style.transitionProperty = 'opacity';
-            child.style.transitionDuration = SCREEN_DECAY_TIME + 's';
+            child.style.transitionDuration = CONFIG.SCREEN_DECAY_TIME + 's';
           }
         }
 
-        // Enable Flash
-        flashID = setInterval(() => {
+        flashIntervalId = setInterval(() => {
           displayWarning();
-        }, FLASH_INTERVAL);
+        }, CONFIG.FLASH_INTERVAL);
 
         for (child of children) {
           if (child.id != 'doomscroll') child.style.opacity = 0;
         }
 
-        // After Fade
         const t = setTimeout(() => {
           document.body.innerHTML = '';
 
-          clearInterval(flashID);
+          clearInterval(flashIntervalId);
 
-          document.body.appendChild(warning);
-          warning.style.opacity = 1;
-          warning.style.color = '#8ac926';
-          warning.style.fontFamily = 'sans-serif';
-          warning.innerText = 'Touch some grass!';
+          document.body.appendChild(warningElement);
+          warningElement.style.opacity = 1;
+          warningElement.style.color = '#8ac926';
+          warningElement.style.fontFamily = 'sans-serif';
+          warningElement.innerText = 'Touch some grass!';
 
           clearTimeout(t);
-        }, SCREEN_DECAY_TIME * 1000);
+        }, CONFIG.SCREEN_DECAY_TIME * 1000);
       }
     }
-  });
+  };
 
   const displayWarning = () => {
-    if (!warningOn) {
-      warning.style.opacity = 1;
+    if (!isWarningVisible) {
+      warningElement.style.opacity = 1;
     } else {
-      warning.style.opacity = 0;
+      warningElement.style.opacity = 0;
     }
-    warningOn = !warningOn;
+    isWarningVisible = !isWarningVisible;
   };
+
+  addEventListener('scroll', handleScroll);
 }
