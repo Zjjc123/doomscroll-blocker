@@ -1,6 +1,6 @@
 chrome.storage.local.get(['blockedSites'], function (result) {
   const blockedSites = result.blockedSites || [];
-  const currentHostname = window.location.hostname;
+  const currentHostname = window.location.href;
   const isBlocked = blockedSites.some((site) => currentHostname.includes(site));
 
   if (isBlocked) {
