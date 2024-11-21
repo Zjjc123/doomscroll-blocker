@@ -18,6 +18,10 @@
 
 ## Changelog
 
+### 0.3.3
+
+- Allow specifying subdomains
+
 ### 0.3.2
 
 - Name update
