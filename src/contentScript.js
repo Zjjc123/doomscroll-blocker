@@ -1,10 +1,26 @@
-chrome.storage.local.get(['blockedSites'], function (result) {
-  const blockedSites = result.blockedSites || [];
-  const currentHostname = window.location.hostname;
-  const isBlocked = blockedSites.some((site) => currentHostname.includes(site));
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'checkBlockedSite') {
+    chrome.storage.local.get(['blockedSites'], function (result) {
+      const blockedSites = result.blockedSites || [];
+      const href = window.location.href;
+      const isBlocked = blockedSites.some((site) => href.includes(site));
 
-  if (isBlocked) {
-    initialSiteBlocker();
+      if (isBlocked) {
+        initialSiteBlocker();
+      } else {
+        if (initialSiteBlocker.scrollHandler) {
+          window.removeEventListener(
+            'scroll',
+            initialSiteBlocker.scrollHandler
+          );
+        }
+      }
+
+      if (sendResponse) {
+        sendResponse({ isBlocked });
+      }
+    });
+    return true;
   }
 });
 
@@ -97,5 +113,6 @@ function initialSiteBlocker() {
     isWarningVisible = !isWarningVisible;
   };
 
-  addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll);
+  initialSiteBlocker.scrollHandler = handleScroll;
 }
