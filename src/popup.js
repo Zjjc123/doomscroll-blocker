@@ -28,8 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const site = siteInput.value.trim().toLowerCase();
     if (!site) return;
 
-    if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(site)) {
-      alert('Please enter a valid domain (e.g., example.com)');
+    if (
+      !/^[a-z0-9.-]+\.[a-z]{2,}(\/[a-z0-9\-._~%!$&'()*+,;=:@/]*\*?)?$/i.test(
+        site
+      )
+    ) {
+      alert(
+        'Please enter a valid domain (e.g., example.com or example.com/*)'
+      );
       return;
     }
 
